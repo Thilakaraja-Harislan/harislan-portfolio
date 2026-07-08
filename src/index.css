@@ -1,0 +1,330 @@
+@import "tailwindcss";
+
+:root {
+  /* Default Dark Mode Theme (original cyberpunk glassmorphic style) */
+  --bg-main: #070810;
+  --bg-card: rgba(15, 23, 42, 0.4);
+  --bg-card-hover: rgba(20, 24, 38, 0.65);
+  --border-card: rgba(30, 41, 59, 0.5);
+  --border-card-hover: rgba(168, 85, 247, 0.35);
+  --text-main: #ffffff;
+  --text-secondary: #94a3b8;
+  --text-muted: #64748b;
+  --accent-cyan: #00f0ff;
+  --accent-purple: #a855f7;
+  --accent-indigo: #6366f1;
+  --bg-nav: rgba(7, 8, 16, 0.7);
+  --border-nav: rgba(30, 41, 59, 0.4);
+  --glow-opacity: 0.5;
+  --shadow-color: rgba(99, 102, 241, 0.15);
+  --card-shadow: 0 4px 30px rgba(0, 0, 0, 0.3);
+  --card-shadow-hover: 0 10px 40px 0 rgba(168, 85, 247, 0.15);
+
+  /* Different shades of glowing space-indigo blue for skills tables (dark mode) */
+  --card-bg-1: rgba(23, 28, 64, 0.38);   /* Deep Cosmic Indigo */
+  --card-bg-2: rgba(13, 17, 46, 0.42);   /* Midnight Cobalt */
+  --card-bg-3: rgba(30, 27, 75, 0.35);   /* Deep Royal Violet-Indigo */
+  --card-bg-4: rgba(17, 24, 60, 0.38);   /* Sapphire Indigo */
+  --card-bg-5: rgba(9, 13, 38, 0.45);    /* Dark Space Slate-Indigo */
+  --card-bg-6: rgba(15, 23, 59, 0.38);   /* Navy Blue-Indigo */
+
+  /* About page Focus Pillars cards variables (dark mode) */
+  --about-card-bg: rgba(15, 23, 42, 0.2);
+  --about-card-border: rgba(30, 41, 59, 0.5);
+
+  /* Footer variables (dark mode) */
+  --bg-footer: #07080e;
+  --border-footer: rgba(30, 41, 59, 0.4);
+}
+
+:root[data-theme="light"] {
+  /* Light Mode Theme (white with indigo blue shadows, matching the cursor portfolio style) */
+  --bg-main: #ffffff;
+  --bg-card: rgba(255, 255, 255, 0.75);
+  --bg-card-hover: rgba(255, 255, 255, 0.95);
+  --border-card: rgba(226, 232, 240, 0.8);
+  --border-card-hover: rgba(79, 70, 229, 0.3);
+  --text-main: #0f172a;
+  --text-secondary: #334155;
+  --text-muted: #64748b;
+  --accent-cyan: #0284c7; /* Sky 600 - Rich blue-cyan accent */
+  --accent-purple: #7c3aed; /* Violet 600 - Rich purple */
+  --accent-indigo: #4f46e5; /* Indigo 600 - Rich indigo */
+  --bg-nav: rgba(255, 255, 255, 0.8);
+  --border-nav: rgba(226, 232, 240, 0.8);
+  --glow-opacity: 0.15;
+  --shadow-color: rgba(79, 70, 229, 0.1);
+  --card-shadow: 0 8px 30px var(--shadow-color), 0 1px 3px rgba(0, 0, 0, 0.05);
+  --card-shadow-hover: 0 16px 40px rgba(79, 70, 229, 0.16), 0 2px 6px rgba(0, 0, 0, 0.05);
+
+  /* Different shades of frosted pastel-indigo blue for skills tables (light mode) */
+  --card-bg-1: rgba(224, 231, 255, 0.65); /* Indigo 100 - Frosted sky */
+  --card-bg-2: rgba(238, 242, 255, 0.7);   /* Indigo 50 - Soft lavender-blue */
+  --card-bg-3: rgba(219, 234, 254, 0.65); /* Blue 100 - Cool azure */
+  --card-bg-4: rgba(243, 244, 246, 0.7);   /* Slate 50 - Neutral silver-indigo */
+  --card-bg-5: rgba(236, 254, 255, 0.65); /* Cyan 50 - Pale ice blue */
+  --card-bg-6: rgba(245, 243, 255, 0.7);   /* Violet 50 - Very soft purple */
+
+  /* About page Focus Pillars cards variables (light mode: indigo blue) */
+  --about-card-bg: rgba(224, 231, 255, 0.85); /* Frosted Indigo 100 */
+  --about-card-border: rgba(165, 180, 252, 0.6); /* Indigo 300 */
+
+  /* Footer variables (light mode: indigo blue) */
+  --bg-footer: #eef2ff; /* Indigo 50 - Very soft indigo blue */
+  --border-footer: #c7d2fe; /* Indigo 200 */
+}
+
+@theme {
+  --color-cyber-cyan: var(--accent-cyan);
+  --color-cyber-purple: var(--accent-purple);
+  --color-cyber-indigo: var(--accent-indigo);
+  --color-bg-dark: var(--bg-main);
+  --color-bg-dark-card: var(--bg-card);
+  
+  /* Overwrite default slate color classes dynamically based on current theme */
+  --color-slate-50: var(--bg-main);
+  --color-slate-100: var(--text-main);
+  --color-slate-200: var(--text-main);
+  --color-slate-300: var(--text-main);
+  --color-slate-400: var(--text-secondary);
+  --color-slate-500: var(--text-muted);
+  --color-slate-600: var(--text-muted);
+  --color-slate-700: var(--text-secondary);
+  --color-slate-800: var(--border-card);
+  --color-slate-900: var(--bg-card);
+  --color-slate-950: var(--bg-main);
+  
+  --font-display: 'Outfit', sans-serif;
+  --font-sans: 'Inter', sans-serif;
+  
+  --animate-float: float-slow 6s ease-in-out infinite;
+  --animate-float-delayed: float-slow-delayed 6s ease-in-out infinite;
+  --animate-pulse-slow: pulse 4s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+  --animate-spin-slow: spin-slow 25s linear infinite;
+  --animate-dash-border: dash 3s linear infinite;
+
+  @keyframes float-slow {
+    0%, 100% { transform: translateY(0px); }
+    50% { transform: translateY(-12px); }
+  }
+  @keyframes float-slow-delayed {
+    0%, 100% { transform: translateY(-6px); }
+    50% { transform: translateY(6px); }
+  }
+  @keyframes spin-slow {
+    from { transform: rotate(0deg); }
+    to { transform: rotate(360deg); }
+  }
+  @keyframes dash {
+    to {
+      stroke-dashoffset: -40;
+    }
+  }
+}
+
+/* Custom Base Styles */
+@layer base {
+  html {
+    scroll-padding-top: 80px;
+    background-color: var(--bg-main);
+    color: var(--text-secondary);
+    transition: background-color 0.3s ease, color 0.3s ease;
+  }
+  
+  body {
+    font-family: var(--font-sans);
+    overflow-x: hidden;
+  }
+  
+  h1, h2, h3, h4, h5, h6 {
+    font-family: var(--font-display);
+  }
+  
+  /* Smooth scroll scrollbar styling */
+  ::-webkit-scrollbar {
+    width: 8px;
+  }
+  ::-webkit-scrollbar-track {
+    background: var(--bg-main);
+  }
+  ::-webkit-scrollbar-thumb {
+    background: var(--border-card);
+    border-radius: 4px;
+  }
+  ::-webkit-scrollbar-thumb:hover {
+    background: linear-gradient(180deg, var(--accent-cyan), var(--accent-purple));
+  }
+}
+
+/* Premium Styling Utilities */
+@layer utilities {
+  /* Frosted Glassmorphism Card */
+  .glass-card {
+    background: var(--bg-card);
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+    border: 1px solid var(--border-card);
+    box-shadow: var(--card-shadow);
+    transition: background 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease;
+  }
+  
+  .glass-card-hover {
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+  
+  .glass-card-hover:hover {
+    background: var(--bg-card-hover);
+    border-color: var(--border-card-hover);
+    box-shadow: var(--card-shadow-hover);
+    transform: translateY(-4px);
+  }
+
+  /* Different indigo-blue backgrounds for Skills cards */
+  .skills-bg-1 { background: var(--card-bg-1) !important; }
+  .skills-bg-2 { background: var(--card-bg-2) !important; }
+  .skills-bg-3 { background: var(--card-bg-3) !important; }
+  .skills-bg-4 { background: var(--card-bg-4) !important; }
+  .skills-bg-5 { background: var(--card-bg-5) !important; }
+  .skills-bg-6 { background: var(--card-bg-6) !important; }
+
+  /* About Pillars cards dynamic background and border */
+  .about-card-bg { 
+    background: var(--about-card-bg) !important;
+    border-color: var(--about-card-border) !important;
+  }
+
+  /* Footer dynamic background and border */
+  .footer-bg {
+    background-color: var(--bg-footer) !important;
+    border-top: 1px solid var(--border-footer) !important;
+  }
+
+  /* Radial gradient follower glow */
+  .glow-hover {
+    position: relative;
+  }
+  
+  .glow-hover::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    border-radius: inherit;
+    background: radial-gradient(800px circle at var(--mouse-x, 0px) var(--mouse-y, 0px), rgba(0, 240, 255, 0.08), transparent 40%);
+    z-index: 0;
+    pointer-events: none;
+    opacity: 0;
+    transition: opacity 0.5s ease;
+  }
+
+  .glow-hover:hover::before {
+    opacity: 1;
+  }
+
+  /* Text Gradients */
+  .text-gradient-cyan-purple {
+    background: linear-gradient(135deg, var(--accent-cyan) 0%, var(--accent-purple) 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+  }
+  
+  .text-gradient-purple-indigo {
+    background: linear-gradient(135deg, var(--accent-purple) 0%, var(--accent-indigo) 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+  }
+
+  .text-gradient-cyan-indigo {
+    background: linear-gradient(135deg, var(--accent-cyan) 30%, var(--accent-indigo) 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+  }
+
+  /* Premium Buttons */
+  .btn-premium {
+    position: relative;
+    overflow: hidden;
+    transition: all 0.3s ease;
+  }
+
+  .btn-premium::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+    transition: all 0.5s ease;
+  }
+
+  .btn-premium:hover::before {
+    left: 100%;
+  }
+
+  /* Hide scrollbar utility */
+  .scrollbar-hide::-webkit-scrollbar {
+    display: none;
+  }
+  .scrollbar-hide {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
+
+  /* 3D Card Flip Utilities */
+  .preserve-3d {
+    transform-style: preserve-3d;
+    -webkit-transform-style: preserve-3d;
+  }
+  .backface-hidden {
+    backface-visibility: hidden;
+    -webkit-backface-visibility: hidden;
+  }
+
+  @keyframes float-bubble {
+    0% {
+      transform: translateY(0) translateX(0);
+      opacity: 0;
+    }
+    10% {
+      opacity: 0.35;
+    }
+    90% {
+      opacity: 0.35;
+    }
+    100% {
+      transform: translateY(-105vh) translateX(45px);
+      opacity: 0;
+    }
+  }
+
+  /* Avatar glowing indigo shadow */
+  .avatar-glow {
+    box-shadow: 0 0 85px 10px color-mix(in srgb, var(--accent-indigo) 55%, transparent), 0 0 40px 2px color-mix(in srgb, var(--accent-indigo) 70%, transparent) !important;
+  }
+}
+
+/* Lenis smooth scrolling compatibility */
+html.lenis, html.lenis body {
+  height: auto;
+}
+
+.lenis.lenis-smooth {
+  scroll-behavior: auto !important;
+}
+
+.lenis.lenis-smooth [data-lenis-prevent] {
+  overscroll-behavior: contain;
+}
+
+.lenis.lenis-stopped {
+  overflow: hidden;
+}
+
+.lenis.lenis-smooth iframe {
+  pointer-events: none;
+}
+
+

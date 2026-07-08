@@ -1,0 +1,23 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" fill="none">
+  <defs>
+    <linearGradient id="logo-grad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#00f0ff" />
+      <stop offset="50%" stop-color="#a855f7" />
+      <stop offset="100%" stop-color="#6366f1" />
+    </linearGradient>
+    <filter id="glow" x="-10%" y="-10%" width="120%" height="120%">
+      <feGaussianBlur stdDeviation="3" result="blur" />
+      <feComposite in="SourceGraphic" in2="blur" operator="over" />
+    </filter>
+  </defs>
+  <!-- Background Shape -->
+  <rect x="15" y="15" width="70" height="70" rx="20" fill="#0f111a" stroke="url(#logo-grad)" stroke-width="4" />
+  
+  <!-- Stylized H Logo -->
+  <path d="M35 30 V70" stroke="url(#logo-grad)" stroke-width="6" stroke-linecap="round" filter="url(#glow)" />
+  <path d="M65 30 V70" stroke="url(#logo-grad)" stroke-width="6" stroke-linecap="round" filter="url(#glow)" />
+  <path d="M35 50 H65" stroke="url(#logo-grad)" stroke-width="6" stroke-linecap="round" filter="url(#glow)" />
+  
+  <!-- Subtle Dot Accent -->
+  <circle cx="65" cy="30" r="3.5" fill="#00f0ff" />
+</svg>
