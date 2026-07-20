@@ -215,8 +215,8 @@ export default function Navbar() {
 
         {/* Mobile Navigation Drawer */}
         <div 
-          className={`md:hidden overflow-hidden transition-all duration-300 ease-in-out
-            ${isOpen ? 'max-h-80 opacity-100 mt-4 border-t border-slate-900/80 pt-4' : 'max-h-0 opacity-0'}`}
+          className={`md:hidden transition-all duration-300 ease-in-out
+            ${isOpen ? 'max-h-[500px] opacity-100 mt-4 border-t border-slate-900/80 pt-4 overflow-y-auto' : 'max-h-0 opacity-0 overflow-hidden'}`}
         >
           <div className="flex flex-col space-y-2">
             {navLinks.map((link) => {

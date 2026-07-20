@@ -163,7 +163,7 @@ export default function Contact() {
             {/* Quick Links / Socials */}
             <div className="pt-6 border-t border-slate-900/60">
               <span className="text-xs text-slate-500 block uppercase tracking-wider mb-3">Connect on Social Networks</span>
-              <div className="flex gap-3">
+              <div className="flex flex-wrap gap-3">
                 <a
                   href="https://github.com/Thilakaraja-Harislan"
                   target="_blank"

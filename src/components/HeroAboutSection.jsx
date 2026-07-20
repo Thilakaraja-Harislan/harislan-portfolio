@@ -75,19 +75,34 @@ export default function HeroAboutSection() {
     offset: ["start start", "end end"]
   });
 
-  // Map scroll progress to 3D rotation with a wider easing window to make it much smoother:
-  // - We use intermediate mapping points to create a custom ease-in-out curve
+  // Desktop 3D rotation transform (kept exactly the same as current state)
   const rotateY = useTransform(
     scrollYProgress, 
     [0, 0.2, 0.38, 0.5, 0.62, 0.8, 1], 
     [0, 0, 15, 90, 165, 180, 180]
   );
 
-  // Soft physics-based spring smoothing to filter out mouse scroll wheel jerks
   const smoothRotateY = useSpring(rotateY, {
     damping: 28,
     stiffness: 45,
     mass: 1.2,
+    restDelta: 0.001
+  });
+
+  // Mobile-specific fast 3D rotation transform:
+  // - Stays at 0° while viewing Home section content (Cartoon Avatar 100% static)
+  // - Rapidly flips 0° -> 180° right as About section content appears
+  // - Completes 180° early so the Color Portrait is fully visible before scrolling near the mobile navbar
+  const mobileRotateY = useTransform(
+    scrollYProgress,
+    [0, 0.30, 0.34, 0.42, 0.46, 1],
+    [0, 0, 30, 150, 180, 180]
+  );
+
+  const mobileSmoothRotateY = useSpring(mobileRotateY, {
+    damping: 20,
+    stiffness: 120,
+    mass: 0.5,
     restDelta: 0.001
   });
 
@@ -241,23 +256,59 @@ export default function HeroAboutSection() {
               </a>
             </div>
 
-            {/* MOBILE INLINE PORTRAIT (Hero style circle - Hidden on desktop) */}
+            {/* MOBILE INLINE 3D FLIPPING PORTRAIT (Hero style circle with 3D Y-rotation - Hidden on desktop) */}
             <div className="flex lg:hidden justify-center pt-8">
-              <div className="relative w-80 h-80 sm:w-96 sm:h-96 aspect-square">
+              <div className="relative w-72 h-72 sm:w-96 sm:h-96 aspect-square flex items-center justify-center">
                 {/* Concentric rotating rings */}
-                <svg className="absolute inset-0 w-full h-full animate-spin-slow text-cyber-cyan/20" viewBox="0 0 100 100">
+                <svg className="absolute inset-0 w-full h-full animate-spin-slow text-cyber-cyan/20 pointer-events-none" viewBox="0 0 100 100">
                   <circle cx="50" cy="50" r="48" fill="none" stroke="currentColor" strokeWidth="0.75" strokeDasharray="4 8" />
                 </svg>
-                <svg className="absolute inset-2 w-[calc(100%-16px)] h-[calc(100%-16px)] animate-spin-slow text-cyber-purple/20 [animation-direction:reverse]" viewBox="0 0 100 100">
+                <svg className="absolute inset-2 w-[calc(100%-16px)] h-[calc(100%-16px)] animate-spin-slow text-cyber-purple/20 [animation-direction:reverse] pointer-events-none" viewBox="0 0 100 100">
                   <circle cx="50" cy="50" r="47" fill="none" stroke="currentColor" strokeWidth="0.5" strokeDasharray="12 6 3 6" />
                 </svg>
-                <svg className="absolute inset-4 w-[calc(100%-32px)] h-[calc(100%-32px)] text-cyber-cyan/30" viewBox="0 0 100 100">
+                <svg className="absolute inset-4 w-[calc(100%-32px)] h-[calc(100%-32px)] text-cyber-cyan/30 pointer-events-none" viewBox="0 0 100 100">
                   <circle cx="50" cy="50" r="48" fill="none" stroke="currentColor" strokeWidth="0.75" strokeDasharray="40 10" className="animate-dash-border" />
                 </svg>
-                {/* Circular image mask */}
-                <div className="absolute inset-8 rounded-full bg-slate-950 border-2 border-slate-800 overflow-hidden flex items-center justify-center avatar-glow">
-                  <img src={avatarCartoon} alt="Harislan Cartoon Avatar" className="w-full h-full object-cover object-top" />
-                </div>
+
+                {/* Static Avatar shadow container */}
+                <div className="absolute inset-8 rounded-full avatar-glow pointer-events-none" />
+
+                {/* ROTATING INNER PARTS (The 3D image flip on mobile!) */}
+                <motion.div 
+                  style={{ rotateY: mobileSmoothRotateY, perspective: 1500 }}
+                  className="absolute inset-8 preserve-3d"
+                >
+                  {/* FRONT SIDE (Hero: Cartoon Circle) */}
+                  <div 
+                    className="absolute inset-0 backface-hidden preserve-3d rounded-full overflow-hidden border-2 border-slate-800 flex items-center justify-center bg-slate-950 shadow-2xl"
+                    style={{ zIndex: 2 }}
+                  >
+                    <div className="absolute inset-0 bg-gradient-to-tr from-cyber-cyan/20 via-transparent to-cyber-purple/20 z-10 mix-blend-color-dodge" />
+                    <img 
+                      src={avatarCartoon} 
+                      alt="Harislan Cartoon Avatar" 
+                      className="w-full h-full object-cover object-top"
+                    />
+                  </div>
+
+                  {/* BACK SIDE (About: Color Circle + Badge) */}
+                  <div 
+                    className="absolute inset-0 backface-hidden preserve-3d rounded-full overflow-hidden border-2 border-slate-800 flex items-center justify-center bg-slate-950 shadow-2xl"
+                    style={{ transform: 'rotateY(180deg)' }}
+                  >
+                    <div className="absolute inset-0 bg-gradient-to-tr from-cyber-cyan/20 via-transparent to-cyber-purple/20 z-10 mix-blend-color-dodge" />
+                    <img 
+                      src={avatarColor} 
+                      alt="Harislan Color Portrait" 
+                      className="w-full h-full object-cover object-top"
+                    />
+                    
+                    {/* Floating Role Badge */}
+                    <div className="absolute bottom-4 sm:bottom-6 z-20 px-3 py-1 rounded-full border border-white/10 bg-slate-950/80 backdrop-blur-sm shadow-lg text-[9px] sm:text-[10px] font-bold text-cyber-cyan tracking-wider uppercase">
+                      Full Stack Developer
+                    </div>
+                  </div>
+                </motion.div>
               </div>
             </div>
           </motion.div>
@@ -314,31 +365,6 @@ export default function HeroAboutSection() {
                 <div>
                   <span className="text-xs text-slate-500 block uppercase tracking-wider mb-1">Syllabus Studies</span>
                   <span className="text-sm font-semibold text-slate-100 font-display">Software Engineering (Hons)</span>
-                </div>
-              </div>
-            </div>
-
-            {/* MOBILE INLINE PORTRAIT (About style circle - Hidden on desktop) */}
-            <div className="flex lg:hidden justify-center pt-8">
-              <div className="relative w-80 h-80 sm:w-96 sm:h-96 aspect-square">
-                {/* Concentric rotating rings */}
-                <svg className="absolute inset-0 w-full h-full animate-spin-slow text-cyber-cyan/20" viewBox="0 0 100 100">
-                  <circle cx="50" cy="50" r="48" fill="none" stroke="currentColor" strokeWidth="0.75" strokeDasharray="4 8" />
-                </svg>
-                <svg className="absolute inset-2 w-[calc(100%-16px)] h-[calc(100%-16px)] animate-spin-slow text-cyber-purple/20 [animation-direction:reverse]" viewBox="0 0 100 100">
-                  <circle cx="50" cy="50" r="47" fill="none" stroke="currentColor" strokeWidth="0.5" strokeDasharray="12 6 3 6" />
-                </svg>
-                <svg className="absolute inset-4 w-[calc(100%-32px)] h-[calc(100%-32px)] text-cyber-cyan/30" viewBox="0 0 100 100">
-                  <circle cx="50" cy="50" r="48" fill="none" stroke="currentColor" strokeWidth="0.75" strokeDasharray="40 10" className="animate-dash-border" />
-                </svg>
-                {/* Circular image mask */}
-                <div className="absolute inset-8 rounded-full bg-slate-950 border-2 border-slate-800 overflow-hidden flex items-center justify-center avatar-glow">
-                  <div className="absolute inset-0 bg-gradient-to-tr from-cyber-cyan/20 via-transparent to-cyber-purple/20 z-10 mix-blend-color-dodge" />
-                  <img src={avatarColor} alt="Harislan Color Portrait" className="w-full h-full object-cover object-top" />
-                  {/* Floating role badge */}
-                  <div className="absolute bottom-6 z-20 px-3 py-1 rounded-full border border-white/10 bg-slate-950/80 backdrop-blur-sm shadow-lg text-[10px] font-bold text-cyber-cyan tracking-wider uppercase">
-                    Full Stack Developer
-                  </div>
                 </div>
               </div>
             </div>

@@ -159,7 +159,7 @@ const projects = [
     glowColor: 'group-hover:border-cyber-purple/30 shadow-cyber-purple/5',
     // Custom bookfair UI mock drawn in HTML/CSS
     mockup: (
-      <div className="w-full h-full bg-[#0a0b10] border border-slate-900 rounded-xl p-4 font-sans text-xs flex flex-col justify-between select-none">
+      <div className="w-full h-full bg-[#0a0b10] border border-slate-900 rounded-xl p-2.5 sm:p-4 font-sans text-xs flex flex-col justify-between select-none">
         <div className="flex items-center justify-between border-b border-slate-900 pb-2">
           <div className="flex items-center gap-1.5">
             <span className="w-2.5 h-2.5 rounded-full bg-red-500/80" />
@@ -330,7 +330,7 @@ export default function Projects() {
                     </div>
 
                     {/* CTAs */}
-                    <div className="flex items-center gap-4 pt-4 border-t border-slate-900/60">
+                    <div className="flex flex-wrap items-center gap-4 pt-4 border-t border-slate-900/60">
                       <a
                         href={project.github}
                         target="_blank"
