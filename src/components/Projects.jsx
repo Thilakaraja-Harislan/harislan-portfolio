@@ -14,6 +14,9 @@ import expenseProfile from '../assets/expense_profile.png';
 import realestateLanding from '../assets/realestate_landing.png';
 import realestateCatalog from '../assets/realestate_catalog.png';
 import realestateDetail from '../assets/realestate_detail.png';
+import bookfairSignup from '../assets/bookfair_signup.png';
+import bookfairEvents from '../assets/bookfair_events.png';
+import bookfairDetail from '../assets/bookfair_detail.png';
 
 function ExpenseTrackerCarousel() {
   const [activeIndex, setActiveIndex] = useState(0);
@@ -134,6 +137,65 @@ function RealEstateCarousel() {
   );
 }
 
+function BookFairCarousel() {
+  const [activeIndex, setActiveIndex] = useState(0);
+  
+  const slides = [
+    { title: 'Upcoming Book Fairs', img: bookfairEvents, url: 'bookfair.lk/events' },
+    { title: 'Exhibitor Register', img: bookfairSignup, url: 'bookfair.lk/register' },
+    { title: 'Stall Map & Booking', img: bookfairDetail, url: 'bookfair.lk/events/delhi-2026' }
+  ];
+
+  return (
+    <div className="w-full h-full bg-[#0a0b10] border border-slate-900 rounded-xl flex flex-col justify-between overflow-hidden select-none group/carousel relative">
+      {/* Top Browser Toolbar Header */}
+      <div className="flex items-center justify-between border-b border-slate-900/80 bg-slate-950/80 px-4 py-2 z-10">
+        <div className="flex items-center gap-1.5">
+          <span className="w-2 h-2 rounded-full bg-red-500/85" />
+          <span className="w-2 h-2 rounded-full bg-yellow-500/85" />
+          <span className="w-2 h-2 rounded-full bg-green-500/85" />
+        </div>
+        <span className="text-[9px] text-slate-500 font-mono tracking-wide max-w-[150px] sm:max-w-none truncate">{slides[activeIndex].url}</span>
+        <span className="text-[8px] text-cyber-cyan font-bold px-1.5 py-0.5 bg-slate-900/80 rounded border border-slate-800 font-display uppercase tracking-wider">{slides[activeIndex].title}</span>
+      </div>
+
+      {/* Main Image Viewport */}
+      <div className="flex-1 relative overflow-hidden bg-slate-950 flex items-center justify-center">
+        <img 
+          src={slides[activeIndex].img} 
+          alt={slides[activeIndex].title}
+          className="w-full h-full object-cover object-top transition-all duration-300"
+        />
+
+        {/* Carousel Floating Navigation Arrows */}
+        <button 
+          onClick={(e) => { e.preventDefault(); e.stopPropagation(); setActiveIndex(prev => (prev === 0 ? slides.length - 1 : prev - 1)); }}
+          className="absolute left-2 top-1/2 -translate-y-1/2 w-6 h-6 rounded-full bg-slate-950/90 border border-slate-800 text-slate-300 flex items-center justify-center hover:bg-slate-900 hover:text-white hover:border-slate-700 transition-all cursor-pointer opacity-0 group-hover/carousel:opacity-100 focus:opacity-100 z-20 shadow-lg shadow-black/50"
+        >
+          <ChevronLeft size={12} />
+        </button>
+        <button 
+          onClick={(e) => { e.preventDefault(); e.stopPropagation(); setActiveIndex(prev => (prev === slides.length - 1 ? 0 : prev + 1)); }}
+          className="absolute right-2 top-1/2 -translate-y-1/2 w-6 h-6 rounded-full bg-slate-950/90 border border-slate-800 text-slate-300 flex items-center justify-center hover:bg-slate-900 hover:text-white hover:border-slate-700 transition-all cursor-pointer opacity-0 group-hover/carousel:opacity-100 focus:opacity-100 z-20 shadow-lg shadow-black/50"
+        >
+          <ChevronRight size={12} />
+        </button>
+      </div>
+
+      {/* Bottom slide dots selector */}
+      <div className="flex items-center justify-center gap-1 py-1.5 bg-slate-950/90 border-t border-slate-900/60">
+        {slides.map((_, i) => (
+          <button
+            key={i}
+            onClick={(e) => { e.preventDefault(); e.stopPropagation(); setActiveIndex(i); }}
+            className={`w-1 h-1 rounded-full transition-all cursor-pointer ${activeIndex === i ? 'bg-cyber-cyan w-3' : 'bg-slate-700 hover:bg-slate-500'}`}
+          />
+        ))}
+      </div>
+    </div>
+  );
+}
+
 const projects = [
   {
     id: 'expense-tracker',
@@ -157,65 +219,7 @@ const projects = [
     live: '#',
     features: ['Interactive Stall Layout Grid', 'Secure Advance Payment Processing', 'Automated QR-Code Entry Generation', 'Exhibitor & Sales Admin Analytics'],
     glowColor: 'group-hover:border-cyber-purple/30 shadow-cyber-purple/5',
-    // Custom bookfair UI mock drawn in HTML/CSS
-    mockup: (
-      <div className="w-full h-full bg-[#0a0b10] border border-slate-900 rounded-xl p-2.5 sm:p-4 font-sans text-xs flex flex-col justify-between select-none">
-        <div className="flex items-center justify-between border-b border-slate-900 pb-2">
-          <div className="flex items-center gap-1.5">
-            <span className="w-2.5 h-2.5 rounded-full bg-red-500/80" />
-            <span className="w-2.5 h-2.5 rounded-full bg-yellow-500/80" />
-            <span className="w-2.5 h-2.5 rounded-full bg-green-500/80" />
-          </div>
-          <span className="text-[10px] text-slate-500 font-mono">colombobookfair.lk</span>
-          <div className="w-4 h-4 rounded bg-slate-900" />
-        </div>
-
-        <div className="flex gap-3 my-2.5 flex-1 items-stretch">
-          {/* Mock stall grid layout */}
-          <div className="w-3/5 border border-slate-900/80 bg-slate-950 p-2 rounded-lg flex flex-col justify-between">
-            <div className="flex items-center gap-1 mb-1 border-b border-slate-900 pb-1">
-              <Grid3X3 size={11} className="text-cyber-purple" />
-              <span className="text-[9px] text-slate-400 font-semibold uppercase">Hall A Stalls</span>
-            </div>
-            <div className="grid grid-cols-4 gap-1.5 my-1">
-              <div className="aspect-square bg-slate-900 rounded border border-slate-800 flex items-center justify-center text-[8px] text-slate-500">A1</div>
-              <div className="aspect-square bg-cyber-purple/20 rounded border border-cyber-purple/40 flex items-center justify-center text-[8px] text-cyber-purple font-bold">A2</div>
-              <div className="aspect-square bg-red-500/10 rounded border border-red-500/20 flex items-center justify-center text-[8px] text-red-500/60">A3</div>
-              <div className="aspect-square bg-slate-900 rounded border border-slate-800 flex items-center justify-center text-[8px] text-slate-500">A4</div>
-              <div className="aspect-square bg-slate-900 rounded border border-slate-800 flex items-center justify-center text-[8px] text-slate-500">A5</div>
-              <div className="aspect-square bg-slate-900 rounded border border-slate-800 flex items-center justify-center text-[8px] text-slate-500">A6</div>
-              <div className="aspect-square bg-red-500/10 rounded border border-red-500/20 flex items-center justify-center text-[8px] text-red-500/60">A7</div>
-              <div className="aspect-square bg-cyber-purple/20 rounded border border-cyber-purple/40 flex items-center justify-center text-[8px] text-cyber-purple font-bold">A8</div>
-            </div>
-            <div className="flex justify-between items-center text-[8px] text-slate-600">
-              <span className="flex items-center gap-0.5"><span className="w-1.5 h-1.5 rounded-full bg-slate-800" /> Free</span>
-              <span className="flex items-center gap-0.5"><span className="w-1.5 h-1.5 rounded-full bg-red-500/60" /> Booked</span>
-              <span className="flex items-center gap-0.5"><span className="w-1.5 h-1.5 rounded-full bg-cyber-purple" /> Selected</span>
-            </div>
-          </div>
-
-          {/* Ticket preview card */}
-          <div className="w-2/5 border border-slate-900/80 bg-slate-950 p-2 rounded-lg flex flex-col justify-between items-center text-center">
-            <span className="text-[8px] text-slate-400 font-bold tracking-wider">BOOKING TICKET</span>
-            <div className="bg-white p-1 rounded my-1">
-              <QrCode size={30} className="text-slate-950" />
-            </div>
-            <div className="text-[7px] text-slate-500 font-mono">
-              <p className="font-semibold text-slate-300">STALL A-08</p>
-              <p className="mt-0.5 text-emerald-400">PAID: LKR 15,000</p>
-            </div>
-          </div>
-        </div>
-
-        <div className="flex items-center justify-between text-[8px] bg-slate-900/30 p-1.5 rounded border border-slate-900/50">
-          <div className="flex items-center gap-1 text-slate-400">
-            <Shield size={10} className="text-emerald-400" />
-            <span>Secure Checkout System</span>
-          </div>
-          <span className="text-emerald-400 font-bold">READY</span>
-        </div>
-      </div>
-    )
+    mockup: <BookFairCarousel />
   },
   {
     id: 'realestate-platform',
