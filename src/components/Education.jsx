@@ -147,8 +147,8 @@ export default function Education() {
               </p>
 
               <a
-                href="/Thilakaraja_Harislan_Resume.pdf"
-                download="Thilakaraja_Harislan_Resume.pdf"
+                href="/Thilakaraja_Harislan_Full_Stack_Developer_CV.pdf"
+                download="Thilakaraja_Harislan_Full_Stack_Developer_CV.pdf"
                 className="flex items-center justify-center gap-2 w-full py-3.5 px-6 rounded-xl font-bold text-slate-950 bg-gradient-to-r from-cyber-cyan to-cyber-indigo shadow-lg shadow-cyber-cyan/10 hover:shadow-cyber-cyan/25 hover:scale-[1.01] active:scale-[0.99] transition-all duration-300 cursor-pointer"
               >
                 <Download size={16} />

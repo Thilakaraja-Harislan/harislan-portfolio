@@ -17,6 +17,9 @@ import realestateDetail from '../assets/realestate_detail.png';
 import bookfairSignup from '../assets/bookfair_signup.png';
 import bookfairEvents from '../assets/bookfair_events.png';
 import bookfairDetail from '../assets/bookfair_detail.png';
+import studentportalLanding from '../assets/studentportal_landing.png';
+import studentportalExplore from '../assets/studentportal_explore.png';
+import studentportalDetail from '../assets/studentportal_detail.png';
 
 function ExpenseTrackerCarousel() {
   const [activeIndex, setActiveIndex] = useState(0);
@@ -196,6 +199,65 @@ function BookFairCarousel() {
   );
 }
 
+function StudentPortalCarousel() {
+  const [activeIndex, setActiveIndex] = useState(0);
+  
+  const slides = [
+    { title: 'Project Landing Page', img: studentportalLanding, url: 'showcaseportal.harislan.dev/' },
+    { title: 'Explore Submissions', img: studentportalExplore, url: 'showcaseportal.harislan.dev/explore' },
+    { title: 'Submission Details', img: studentportalDetail, url: 'showcaseportal.harislan.dev/project/ai-crop-analyzer' }
+  ];
+
+  return (
+    <div className="w-full h-full bg-[#0a0b10] border border-slate-900 rounded-xl flex flex-col justify-between overflow-hidden select-none group/carousel relative">
+      {/* Top Browser Toolbar Header */}
+      <div className="flex items-center justify-between border-b border-slate-900/80 bg-slate-950/80 px-4 py-2 z-10">
+        <div className="flex items-center gap-1.5">
+          <span className="w-2 h-2 rounded-full bg-red-500/85" />
+          <span className="w-2 h-2 rounded-full bg-yellow-500/85" />
+          <span className="w-2 h-2 rounded-full bg-green-500/85" />
+        </div>
+        <span className="text-[9px] text-slate-500 font-mono tracking-wide max-w-[150px] sm:max-w-none truncate">{slides[activeIndex].url}</span>
+        <span className="text-[8px] text-cyber-cyan font-bold px-1.5 py-0.5 bg-slate-900/80 rounded border border-slate-800 font-display uppercase tracking-wider">{slides[activeIndex].title}</span>
+      </div>
+
+      {/* Main Image Viewport */}
+      <div className="flex-1 relative overflow-hidden bg-slate-950 flex items-center justify-center">
+        <img 
+          src={slides[activeIndex].img} 
+          alt={slides[activeIndex].title}
+          className="w-full h-full object-cover object-top transition-all duration-300"
+        />
+
+        {/* Carousel Floating Navigation Arrows */}
+        <button 
+          onClick={(e) => { e.preventDefault(); e.stopPropagation(); setActiveIndex(prev => (prev === 0 ? slides.length - 1 : prev - 1)); }}
+          className="absolute left-2 top-1/2 -translate-y-1/2 w-6 h-6 rounded-full bg-slate-950/90 border border-slate-800 text-slate-300 flex items-center justify-center hover:bg-slate-900 hover:text-white hover:border-slate-700 transition-all cursor-pointer opacity-0 group-hover/carousel:opacity-100 focus:opacity-100 z-20 shadow-lg shadow-black/50"
+        >
+          <ChevronLeft size={12} />
+        </button>
+        <button 
+          onClick={(e) => { e.preventDefault(); e.stopPropagation(); setActiveIndex(prev => (prev === slides.length - 1 ? 0 : prev + 1)); }}
+          className="absolute right-2 top-1/2 -translate-y-1/2 w-6 h-6 rounded-full bg-slate-950/90 border border-slate-800 text-slate-300 flex items-center justify-center hover:bg-slate-900 hover:text-white hover:border-slate-700 transition-all cursor-pointer opacity-0 group-hover/carousel:opacity-100 focus:opacity-100 z-20 shadow-lg shadow-black/50"
+        >
+          <ChevronRight size={12} />
+        </button>
+      </div>
+
+      {/* Bottom slide dots selector */}
+      <div className="flex items-center justify-center gap-1 py-1.5 bg-slate-950/90 border-t border-slate-900/60">
+        {slides.map((_, i) => (
+          <button
+            key={i}
+            onClick={(e) => { e.preventDefault(); e.stopPropagation(); setActiveIndex(i); }}
+            className={`w-1 h-1 rounded-full transition-all cursor-pointer ${activeIndex === i ? 'bg-cyber-cyan w-3' : 'bg-slate-700 hover:bg-slate-500'}`}
+          />
+        ))}
+      </div>
+    </div>
+  );
+}
+
 const projects = [
   {
     id: 'expense-tracker',
@@ -232,6 +294,18 @@ const projects = [
     features: ['Property Listing Management', 'Secure Authentication & Roles', 'Real-Time Chat System', 'Wishlist & Customer Support'],
     glowColor: 'group-hover:border-cyber-cyan/30 shadow-cyber-cyan/5',
     mockup: <RealEstateCarousel />
+  },
+  {
+    id: 'student-project-portal',
+    title: 'Student Project Showcase Portal',
+    subtitle: 'Full-Stack MERN Application',
+    desc: 'A full-stack MERN application enabling students to publish, browse, and approve academic project submissions through role-based dashboards.',
+    tech: ['React.js', 'Node.js', 'Express.js', 'MongoDB Atlas', 'JWT', 'Google OAuth', 'SSE'],
+    github: 'https://github.com/Thilakaraja-Harislan',
+    live: '#',
+    features: ['JWT and Google OAuth Authentication', 'Category- and Tag-Based Search', 'Real-Time Activity via Server-Sent Events (SSE)', 'Role-Based Dashboard Approvals'],
+    glowColor: 'group-hover:border-cyber-purple/30 shadow-cyber-purple/5',
+    mockup: <StudentPortalCarousel />
   }
 ];
 
@@ -343,14 +417,6 @@ export default function Projects() {
                       >
                         <Github size={16} />
                         <span>Repository</span>
-                      </a>
-                      
-                      <a
-                        href={project.live}
-                        className="flex items-center gap-1.5 text-cyber-cyan hover:text-cyber-cyan/80 hover:underline text-sm font-semibold transition-all cursor-pointer"
-                      >
-                        <span>Live Demo</span>
-                        <ExternalLink size={14} />
                       </a>
                     </div>
                   </div>
